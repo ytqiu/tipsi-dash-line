@@ -10,6 +10,7 @@
     UIColor *dashColor;
     CGFloat dashLineWidth;
     CGFloat dashLineSpace;
+    BOOL horizontal;
 }
 
 - (id)init {
@@ -18,6 +19,7 @@
         dashColor = [UIColor blackColor];
         dashLineWidth = 4.0f;
         dashLineSpace = 2.0f;
+        horizontal = YES;
     }
     return self;
 }
@@ -40,6 +42,11 @@
     [self setNeedsDisplay];
 }
 
+- setHorizontal:(BOOL)hor {
+    horizontal = hor;
+    [self setNeedsDisplay];
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -48,16 +55,24 @@
 
 -(void)drawRect:(CGRect)rect
 {
+    CGFloat height = CGRectGetHeight(self.bounds);
+    CGFloat width = CGRectGetWidth(self.bounds);
+    
     CGContextRef cx = UIGraphicsGetCurrentContext();
     CGContextBeginPath(cx);
-    CGContextSetLineWidth(cx, self.bounds.size.height);
+    CGContextSetLineWidth(cx, horizontal ? height : width);
     CGContextSetStrokeColorWithColor(cx, dashColor.CGColor);
 
     CGFloat dash[] = {dashLineWidth, dashLineSpace};
     CGContextSetLineDash(cx, 0, dash, 2);
 
-    CGContextMoveToPoint(cx, 0, 0.0f);
-    CGContextAddLineToPoint(cx, self.bounds.size.width, 0.0f);
+    if (horizontal) {
+        CGContextMoveToPoint(cx, 0, height / 2);
+        CGContextAddLineToPoint(cx, width, height / 2);
+    } else {
+        CGContextMoveToPoint(cx, width / 2, 0);
+        CGContextAddLineToPoint(cx, width / 2, height);
+    }
     CGContextStrokePath(cx);
     CGContextClosePath(cx);
 }

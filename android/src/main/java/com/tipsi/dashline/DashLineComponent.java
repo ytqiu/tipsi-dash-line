@@ -20,6 +20,7 @@ public class DashLineComponent extends View
     private String dashColor = "#000000";
     private float m_space = 2;
     private float m_line = 4;
+    private boolean m_horizontal = true;
 
     public DashLineComponent(Context context)
     {
@@ -57,6 +58,10 @@ public class DashLineComponent extends View
         invalidate();
     }
 
+    public void setHorizontal(boolean horizontal) {
+        m_horizontal = horizontal;
+        invalidate();
+    }
 
     private void init(Context context)
     {
@@ -78,9 +83,16 @@ public class DashLineComponent extends View
         paint.setPathEffect(effects);
         int measuredHeight = getMeasuredHeight();
         int measuredWidth = getMeasuredWidth();
-        paint.setStrokeWidth(density * measuredHeight);
-        path.moveTo(0, 0);
-        path.lineTo(measuredWidth, 0);
+        if (m_horizontal) {
+            paint.setStrokeWidth(density * measuredHeight);
+            path.moveTo(0, measuredHeight / 2);
+            path.lineTo(measuredWidth, measuredHeight / 2);
+        } else {
+            paint.setStrokeWidth(density * measuredWidth);
+            path.moveTo(measuredWidth / 2, 0);
+            path.lineTo(measuredWidth / 2, measuredHeight);
+        }
+
         canvas.drawPath(path, paint);
     }
 }

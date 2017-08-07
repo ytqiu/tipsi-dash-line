@@ -35,4 +35,9 @@ public class DashLineComponentManager extends SimpleViewManager<DashLineComponen
     view.setDashLineSpace(newValue);
   }
 
+  @ReactProp(name = "horizontal")
+  public void setHorizontal(DashLineComponent view, boolean horizontal) {
+    view.setHorizontal(horizontal);
+  }
+
 }
