@@ -2,11 +2,15 @@ import React, { Component, PropTypes } from 'react'
 import { View, requireNativeComponent } from 'react-native'
 
 export default class DashLine extends Component {
+  static defaultProps = {
+    horizontal: true,
+  }
   static propTypes = {
     ...View.propTypes,
     dashColor: PropTypes.string,
     dashLineWidth: PropTypes.number,
     dashLineSpace: PropTypes.number,
+    horizontal: PropTypes.bool,
   }
 
   render() {
