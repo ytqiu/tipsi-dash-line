@@ -42,7 +42,7 @@
     [self setNeedsDisplay];
 }
 
-- setHorizontal:(BOOL)hor {
+- (void)setHorizontal:(BOOL)hor {
     horizontal = hor;
     [self setNeedsDisplay];
 }
